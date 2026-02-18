@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
-// import heroBg from "@/assets/heroBg.png"
+import heroWEBM from "@/assets/heroWEBM.webm"
 import {
     PageWrapper,
     HeroSection,
@@ -62,7 +62,7 @@ const HomePage = () => {
                     preload="auto"
                     onLoadedData={handleLoadedVideoData}
                 >
-                    <source src="/videos/heroWEBM.webm" type="video/webm" />
+                    <source src={heroWEBM} type="video/webm" />
                 </BackgroundVideo>
                 <Overlay />
 
