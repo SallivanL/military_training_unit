@@ -7,30 +7,18 @@ import {
     LoaderWrapper,
     LoaderContent,
     LoaderTitle,
-    LoaderBar,
-    LoaderProgress,
 } from "./AppLoaderStyled";
 
-const MIN_DISPLAY_TIME = 900;
+const MIN_DISPLAY_TIME = 1500;
 
 const AppLoader = () => {
     const status = useAppSelector(state => state.app.status);
     const dispatch = useAppDispatch();
 
     const wrapperRef = useRef<HTMLDivElement>(null);
-    const progressRef = useRef<HTMLDivElement>(null);
     const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const minTimePassedRef = useRef(false);
 
-    // Анимация полосы
-    useEffect(() => {
-        gsap.to(progressRef.current, {
-            x: "300%",
-            duration: 1.2,
-            ease: "power2.inOut",
-            repeat: -1,
-        });
-    }, []);
 
     // Минимальное время показа
     useEffect(() => {
@@ -71,10 +59,6 @@ const AppLoader = () => {
                 <LoaderTitle>
                     Военный учебный центр
                 </LoaderTitle>
-
-                <LoaderBar>
-                    <LoaderProgress ref={progressRef} />
-                </LoaderBar>
             </LoaderContent>
         </LoaderWrapper>
     );

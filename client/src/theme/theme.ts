@@ -10,10 +10,16 @@ export const getTheme = (mode: 'light' | 'dark') =>
 
             primary: {
                 main: palette.primary[500],
+                light: palette.primary[400],
+                dark: palette.primary[700],
+                contrastText: '#fff',
             },
 
             secondary: {
                 main: palette.secondary[500],
+                light: palette.secondary[400],
+                dark: palette.secondary[700],
+                contrastText: '#fff',
             },
 
             background: {
@@ -26,6 +32,16 @@ export const getTheme = (mode: 'light' | 'dark') =>
                     mode === 'dark'
                         ? palette.gray[800]
                         : '#ffffff',
+            },
+            text: {
+                primary:
+                    mode === 'light'
+                        ? palette.gray[900]
+                        : palette.gray[50],
+                secondary:
+                    mode === 'light'
+                        ? palette.gray[900]
+                        : palette.gray[50],
             },
         },
 

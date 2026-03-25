@@ -1,23 +1,16 @@
-import {createContext, type ReactNode, useMemo, useState} from 'react'
-import { ThemeProvider as MuiThemeProvider, CssBaseline } from '@mui/material'
-import { getTheme } from './theme'
-
-interface ThemeContextType {
-    toggleTheme: () => void
-}
-
-export const ThemeContext = createContext<ThemeContextType>({
-    toggleTheme: () => {},
-})
+import { useMemo, useState, type ReactNode } from "react";
+import { ThemeProvider as MuiThemeProvider, CssBaseline } from "@mui/material";
+import { getTheme } from "./theme";
+import { ThemeContext } from "./ThemeContext";
 
 export default function ThemeProvider({ children }: { children: ReactNode }) {
-    const [mode, setMode] = useState<'light' | 'dark'>('dark')
+    const [mode, setMode] = useState<"light" | "dark">("dark");
 
     const toggleTheme = () => {
-        setMode(prev => (prev === 'dark' ? 'light' : 'dark'))
-    }
+        setMode(prev => (prev === "dark" ? "light" : "dark"));
+    };
 
-    const theme = useMemo(() => getTheme(mode), [mode])
+    const theme = useMemo(() => getTheme(mode), [mode]);
 
     return (
         <ThemeContext.Provider value={{ toggleTheme }}>
@@ -26,5 +19,5 @@ export default function ThemeProvider({ children }: { children: ReactNode }) {
                 {children}
             </MuiThemeProvider>
         </ThemeContext.Provider>
-    )
+    );
 }

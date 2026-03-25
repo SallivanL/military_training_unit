@@ -1,9 +1,9 @@
-import { useState } from "react";
+import {useRef, useState} from "react";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import ShieldIcon from "@mui/icons-material/ShieldOutlined";
-import { Drawer } from "@mui/material";
+import {Box, Drawer, Tooltip} from "@mui/material";
 
 import {
     AppBarStyled,
@@ -14,18 +14,16 @@ import {
     AdmissionButton,
     MobileToggle,
     DrawerContent,
-    DrawerLink,
+    DrawerLink, DesktopOnly,
 } from "./NavigationStyled";
+import {alpha} from "@mui/material/styles";
+import ThemeToggleButton from "@/components/ThemeToggleButton/ThemeToggleButton.tsx";
+import {contacts, navLinks} from "@/description.ts";
+import {useAppSelector} from "@/store/hooks.ts";
+import {gsap} from "gsap";
+import {useGSAP} from "@gsap/react";
 
-const navLinks = [
-    { label: "Главная", path: "/" },
-    { label: "О центре", path: "/about" },
-    { label: "Программы", path: "/programs" },
-    { label: "Кафедры", path: "/departments" },
-    { label: "Поступающим", path: "/admissions" },
-    { label: "Новости", path: "/news" },
-    { label: "Контакты", path: "/contacts" },
-];
+
 
 const linkStyle = {
     textDecoration: "none",
@@ -40,9 +38,29 @@ const Navigation = () => {
         setIsOpen(open);
     };
 
+    const navRef = useRef(null);
+    const showNavigation = useAppSelector(state => state.animation.showNavigation);
+
+    const shouldShowNavigation =
+        location.pathname !== "/" || showNavigation;
+
+
+    useGSAP(() => {
+        if (!shouldShowNavigation || !navRef.current) return;
+
+        gsap.fromTo(
+            navRef.current,
+            { y: -180, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" }
+        );
+
+    }, [shouldShowNavigation]);
+
     return (
         <>
-            <AppBarStyled position="absolute" elevation={0}>
+            <AppBarStyled
+                sx={{ opacity: shouldShowNavigation ? 1 : 0 }}
+                ref={navRef} position="fixed" elevation={0}>
                 <ToolbarStyled>
                     {/* Logo */}
                     <RouterLink to="/" style={linkStyle}>
@@ -61,14 +79,15 @@ const Navigation = () => {
                                 </NavLinkItem>
                             </RouterLink>
                         ))}
+                        <ThemeToggleButton/>
                     </NavLinksDesktop>
-
-                    <RouterLink to="/admissions" style={linkStyle}>
-                        <AdmissionButton variant="contained" color="secondary">
-                            Поступить
-                        </AdmissionButton>
-                    </RouterLink>
-
+                    <DesktopOnly>
+                        <RouterLink to="/admissions" style={linkStyle}>
+                            <AdmissionButton variant="contained">
+                                Поступить
+                            </AdmissionButton>
+                        </RouterLink>
+                    </DesktopOnly>
                     {/* Mobile toggle */}
                     <MobileToggle onClick={toggleDrawer(true)}>
                         <MenuIcon />
@@ -78,9 +97,23 @@ const Navigation = () => {
 
             {/* Mobile Drawer */}
             <Drawer
-                anchor="right"
+                anchor="top"
                 open={isOpen}
                 onClose={toggleDrawer(false)}
+                slotProps={{
+                    paper: {
+                        sx: (theme) => ({
+                            background: alpha(theme.palette.background.paper, 0.45),
+                            backdropFilter: "blur(12px)",
+                            borderBottom: `1px solid ${theme.palette.divider}`,
+                        }),
+                    },
+                    backdrop: {
+                        sx: {
+                            backgroundColor: "rgba(0,0,0,0.3)",
+                        },
+                    },
+                }}
             >
                 <DrawerContent>
                     <MobileToggle
@@ -97,7 +130,9 @@ const Navigation = () => {
                             style={linkStyle}
                             onClick={toggleDrawer(false)}
                         >
-                            <DrawerLink active={location.pathname === link.path}>
+                            <DrawerLink
+                                fullWidth
+                            >
                                 {link.label}
                             </DrawerLink>
                         </RouterLink>
@@ -117,8 +152,38 @@ const Navigation = () => {
                             Поступить
                         </AdmissionButton>
                     </RouterLink>
+                    {/* Контакты внизу */}
+                    <Box sx={{
+                        marginTop:'20px',
+                        padding: 3,
+                        display: 'flex',
+                        justifyContent: 'center',
+                        gap: 3,
+
+                        flexWrap: 'wrap',
+                        borderTop: '1px solid rgba(255,255,255,0.1)',
+                    }}>
+                        {contacts.map(({icon: Icon, title, action, color}) => (
+                            <Tooltip key={title} title={title} arrow>
+                                <Icon
+                                    fontSize="large"
+                                    onClick={action}
+                                    sx={{
+                                        cursor: 'pointer',
+                                        transition: 'all 0.3s ease',
+                                        '&:hover': {
+                                            transform: 'scale(1.2)',
+                                            color: color,
+                                        }
+                                    }}
+                                />
+                            </Tooltip>
+                        ))}
+                        <ThemeToggleButton sx={{transform:'scale(1.2)'}}/>
+                    </Box>
                 </DrawerContent>
             </Drawer>
+
         </>
     );
 };

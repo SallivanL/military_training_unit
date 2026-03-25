@@ -13,7 +13,7 @@ interface LinkProps {
 }
 
 export const AppBarStyled = styled(AppBar)(({ theme }) => ({
-    background: alpha(theme.palette.background.paper, 0.7),
+    background: theme.palette.background.paper,
     backdropFilter: "blur(10px)",
     borderBottom: `1px solid ${theme.palette.divider}`,
 }));
@@ -67,16 +67,25 @@ export const NavLinkItem = styled(Button, {
 }));
 
 export const AdmissionButton = styled(Button)(({ theme }) => ({
-    display: "none",
-    textTransform: "none",
     borderRadius: theme.shape.borderRadius,
-    padding: "6px 20px",
-    fontWeight: 600,
+    fontSize: 16,
+    textTransform: "none",
+    color:
+        theme.palette.mode === "dark"
+            ? theme.palette.grey["200"]
+            : theme.palette.primary.contrastText,
+    background: theme.palette.secondary.light,
+
+    "&:hover": {
+        background: alpha(theme.palette.secondary.light, 0.6),
+    },
 
     [theme.breakpoints.up("lg")]: {
         display: "inline-flex",
+        width: "auto",
     },
 }));
+
 
 export const MobileToggle = styled(IconButton)(({ theme }) => ({
     display: "flex",
@@ -89,13 +98,14 @@ export const MobileToggle = styled(IconButton)(({ theme }) => ({
 /* Drawer content */
 
 export const DrawerContent = styled(Box)(({ theme }) => ({
-    width: 280,
+    width: "100%",
     padding: theme.spacing(3),
     display: "flex",
     flexDirection: "column",
     gap: theme.spacing(1),
-    background: theme.palette.background.paper,
+    background: "transparent",
 }));
+
 
 export const DrawerLink = styled(Button, {
     shouldForwardProp: (prop) => prop !== "active",
@@ -103,18 +113,32 @@ export const DrawerLink = styled(Button, {
     justifyContent: "flex-start",
     textTransform: "none",
     borderRadius: theme.shape.borderRadius,
-    padding: "12px 14px",
+    padding: "14px 16px",
     fontWeight: 500,
+    width: "100%",
+    minWidth: 0,
 
     color: active
         ? theme.palette.primary.main
-        : alpha(theme.palette.text.primary, 0.7),
+        : alpha(theme.palette.text.primary, 0.8),
 
     background: active
-        ? alpha(theme.palette.primary.main, 0.1)
+        ? alpha(theme.palette.primary.main, 0.12)
         : "transparent",
 
+    transition: 'transform 0.8s',
+
     "&:hover": {
-        background: theme.palette.action.hover,
+        transform: 'translateX(4px)',
+        transition: 'transform 0.8s',
+        background: alpha(theme.palette.action.hover, 0.04),
+    },
+}));
+
+export const DesktopOnly = styled(Box)(({ theme }) => ({
+    display: "none",
+
+    [theme.breakpoints.up("lg")]: {
+        display: "block",
     },
 }));

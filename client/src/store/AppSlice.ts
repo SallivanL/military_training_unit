@@ -1,7 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
+
+
+
+
+
+
 export type AppLoadingStatus =
+    | "idle"
     | "loading"
     | "finishing"
     | "success";
@@ -11,7 +18,7 @@ interface AppState {
 }
 
 const initialState: AppState = {
-    status: "loading",
+    status: "idle",
 };
 
 const appSlice = createSlice({
@@ -19,7 +26,9 @@ const appSlice = createSlice({
     initialState,
     reducers: {
         startFinishing(state) {
-            state.status = "finishing";
+            if (state.status !== "success") {
+                state.status = "finishing";
+            }
         },
         setSuccess(state) {
             state.status = "success";
