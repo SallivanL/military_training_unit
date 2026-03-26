@@ -19,9 +19,7 @@ import TopicIcon from '@mui/icons-material/Topic';
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import MilitaryTechIcon from "@mui/icons-material/MilitaryTech";
 import AssignmentIcon from "@mui/icons-material/Assignment";
-import {requirementsKADR, stagesKADR} from "@/description.ts";
-import ChecklistIcon from "@mui/icons-material/Checklist";
-import {ListItemRow, ListNumber} from "@/sections/ZapasSection/ZapasSectionStyled.tsx";
+import {requirementsKADR} from "@/description.ts";
 
 const specialties = [
     {
@@ -46,7 +44,7 @@ const specialties = [
 const stepsKADR = [
     "Подать заявление в военный коммисориат по месту пребывания до 15 июня",
     "Пройти медицинское освидетельствование",
-    "Пройти профессионально психологического отбора",
+    "Пройти профессионально-психологический отбор",
     "Предоставить личное дело в ВУЦ",
     "Сдать нормативы по физической подготовке",
 ];
@@ -65,27 +63,6 @@ const KadrSection = () => {
         <SectionWrapper>
             <Container>
 
-                <SectionHeader
-                    variant="h2"
-                >
-                    <SectionTitle>Требования к кандидатам</SectionTitle>
-                </SectionHeader>
-
-                <GridThree>
-                    {requirementsKADR.map((item, i) => {
-                        const Icon = item.icon;
-                        return (
-                            <RequirementCard key={i}>
-                                <IconWrapper>
-                                    <Icon />
-                                </IconWrapper>
-                                <CardTitle>{item.title}</CardTitle>
-                                <CardText>{item.desc}</CardText>
-                            </RequirementCard>
-                        );
-                    })}
-                </GridThree>
-
                 {/* TABLE */}
 
                 <TableCard>
@@ -100,17 +77,61 @@ const KadrSection = () => {
                             </thead>
 
                             <tbody>
-                            {specialties.map((s, i) => (
-                                <tr key={i}>
-                                    <Cell>{s.military}</Cell>
-                                    <Cell>{s.civilian}</Cell>
-                                    <Cell align="center">{s.faculty}</Cell>
-                                </tr>
-                            ))}
+                            {specialties.map((s, i) => {
+                                // проверяем — первая ли это строка с таким military
+                                const isFirst =
+                                    i === 0 || specialties[i - 1].military !== s.military;
+
+                                // если первая — считаем сколько одинаковых подряд
+                                let rowSpan = 1;
+                                if (isFirst) {
+                                    for (let j = i + 1; j < specialties.length; j++) {
+                                        if (specialties[j].military === s.military) {
+                                            rowSpan++;
+                                        } else {
+                                            break;
+                                        }
+                                    }
+                                }
+
+                                return (
+                                    <tr key={i}>
+                                        {isFirst && (
+                                            <Cell rowSpan={rowSpan}>
+                                                {s.military}
+                                            </Cell>
+                                        )}
+
+                                        <Cell>{s.civilian}</Cell>
+                                        <Cell align="center">{s.faculty}</Cell>
+                                    </tr>
+                                );
+                            })}
                             </tbody>
                         </TableStyled>
                     </TableScroll>
                 </TableCard>
+
+                <SectionHeader
+                    variant="h2"
+                >
+                    <SectionTitle>Требования к кандидатам</SectionTitle>
+                </SectionHeader>
+
+                <GridThree>
+                    {requirementsKADR.map((item, i) => {
+                        const Icon = item.icon;
+                        return (
+                            <RequirementCard key={i}>
+                                <IconWrapper>
+                                    <Icon/>
+                                </IconWrapper>
+                                <CardTitle>{item.title}</CardTitle>
+                                <CardText>{item.desc}</CardText>
+                            </RequirementCard>
+                        );
+                    })}
+                </GridThree>
 
                 {/* INFO */}
 
@@ -119,14 +140,14 @@ const KadrSection = () => {
                     <Card>
                         <AccessTimeIcon/>
                         <CardTitle>Срок обучения</CardTitle>
-                        <CardText>5(5,5) лет очная форма</CardText>
+                        <CardText>5 (5,5) лет очная форма</CardText>
                     </Card>
 
                     <Card>
                         <MilitaryTechIcon/>
                         <CardTitle>Контракт</CardTitle>
                         <CardText>
-                            Служба в Воздушно космических силах РФ на должностях инженерно-технического состава.
+                            Служба в Воздушно-космических силах РФ на должностях инженерно-технического состава.
                             Срок службы - 3 года, с возможностью продления контракта
                         </CardText>
                     </Card>
@@ -149,7 +170,6 @@ const KadrSection = () => {
 
                 {/* DOCUMENTS */}
 
-                <GridTwo>
 
                     <Card>
                         <SectionTitle variant="h6">
@@ -165,21 +185,6 @@ const KadrSection = () => {
                         ))}
                     </Card>
 
-                    <Card>
-                        <SectionTitle variant="h6">
-                            <ChecklistIcon sx={{ mr: 1 }} />
-                            Этапы отбора
-                        </SectionTitle>
-
-                        {stagesKADR.map((stage, i) => (
-                            <ListItemRow key={i}>
-                                <ListNumber>{i + 1}</ListNumber>
-                                <CardText>{stage}</CardText>
-                            </ListItemRow>
-                        ))}
-                    </Card>
-
-                </GridTwo>
 
             </Container>
         </SectionWrapper>

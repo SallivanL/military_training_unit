@@ -100,6 +100,8 @@ export const Card = styled(Box)(({ theme }) => ({
     padding: theme.spacing(4),
     borderRadius: theme.shape.borderRadius,
     boxShadow: theme.shadows[2],
+    marginBottom: theme.spacing(4),
+    marginTop: theme.spacing(4),
 }));
 
 export const CardTitle = styled(Typography)(({ theme }) => ({

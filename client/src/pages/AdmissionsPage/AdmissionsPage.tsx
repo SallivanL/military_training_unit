@@ -20,7 +20,7 @@ const AdmissionsPage = () => {
     const loadingStatus = useAppSelector(state => state.app.status);
 
     const [tab, setTab] =
-        useState<"zapas" | "kadr">("zapas");
+        useState<"zapas" | "kadr">("kadr");
 
     useEffect(() => {
         if (loadingStatus !== "loading") {
