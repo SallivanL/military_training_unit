@@ -9,7 +9,7 @@ import {
     SectionHeader,
     SectionTitle, SectionWrapper
 } from "./ZapasSectionStyled.tsx";
-import {documents, requirements, stages} from "@/description.ts";
+import {documents, requirementsZAPAS, stagesZAPAS} from "@/description.ts";
 import ChecklistIcon from "@mui/icons-material/Checklist";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import EventOutlinedIcon from "@mui/icons-material/EventOutlined";
@@ -19,12 +19,14 @@ const ZapasSection = () => {
         <SectionWrapper>
             <Container>
                 {/* Requirements */}
-                <SectionHeader variant="h2">
+                <SectionHeader
+                    variant="h2"
+                >
                     <SectionTitle>Требования к кандидатам</SectionTitle>
                 </SectionHeader>
 
                 <GridThree>
-                    {requirements.map((item, i) => {
+                    {requirementsZAPAS.map((item, i) => {
                         const Icon = item.icon;
                         return (
                             <RequirementCard key={i}>
@@ -46,7 +48,7 @@ const ZapasSection = () => {
                             Этапы отбора
                         </SectionTitle>
 
-                        {stages.map((stage, i) => (
+                        {stagesZAPAS.map((stage, i) => (
                             <ListItemRow key={i}>
                                 <ListNumber>{i + 1}</ListNumber>
                                 <CardText>{stage}</CardText>
@@ -77,8 +79,8 @@ const ZapasSection = () => {
                     </SectionTitle>
 
                     <CardText>
-                        Приём заявлений: <b>1 февраля – 1 апреля</b>. Отбор проводится в
-                        <b> мае–июне</b>. Зачисление — до <b>1 августа</b>.
+                        Приём заявлений: <b>до 10 октября</b>. Отбор проводится в
+                        <b> ноябре-декабре</b>. Обучение с <b>1 февраля</b>.
                     </CardText>
                 </DeadlineCard>
             </Container>

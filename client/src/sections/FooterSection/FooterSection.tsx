@@ -77,7 +77,7 @@ const Footer = () => {
 
                         <ContactRow>
                             <PhoneOutlinedIcon fontSize="small" />
-                            +7 (123) 123-45-67
+                            +7 (908) 350-49-83
                         </ContactRow>
 
                         <ContactRow>

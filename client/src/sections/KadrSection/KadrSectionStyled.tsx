@@ -11,6 +11,29 @@ export const Container = styled(Box)({
     margin: "0 auto",
 });
 
+/* Headings */
+
+export const SectionHeader = styled(Typography)(({ theme }) => ({
+    textAlign: "center",
+    marginBottom: theme.spacing(6),
+}));
+
+export const SectionTitle = styled(Typography)({
+    fontWeight: 700,
+});
+
+/* Grids */
+
+export const GridThree = styled(Box)(({ theme }) => ({
+    display: "grid",
+    gap: theme.spacing(3),
+    marginBottom: theme.spacing(6),
+
+    [theme.breakpoints.up("md")]: {
+        gridTemplateColumns: "repeat(3, 1fr)",
+    },
+}));
+
 /* table */
 
 export const TableCard = styled(Box)(({ theme }) => ({
@@ -84,6 +107,14 @@ export const CardTitle = styled(Typography)(({ theme }) => ({
     marginBottom: theme.spacing(2),
 }));
 
+export const RequirementCard = styled(Box)(({ theme }) => ({
+    padding: theme.spacing(4),
+    borderRadius: theme.shape.borderRadius,
+    background: theme.palette.background.paper,
+    textAlign: "center",
+    boxShadow: theme.shadows[1],
+}));
+
 export const CardText = styled(Typography)(({ theme }) => ({
     color: theme.palette.text.secondary,
 }));
@@ -122,4 +153,17 @@ export const Badge = styled(Box)(({ theme }) => ({
     marginRight: 8,
     marginTop: 8,
     fontSize: 13,
+}));
+
+
+export const IconWrapper = styled(Box)(({ theme }) => ({
+    width: 56,
+    height: 56,
+    margin: "0 auto 16px",
+    borderRadius: theme.shape.borderRadius,
+    background: alpha(theme.palette.primary.main, 0.1),
+    color: theme.palette.primary.main,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
 }));

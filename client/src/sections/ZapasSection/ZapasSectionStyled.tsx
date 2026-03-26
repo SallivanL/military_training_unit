@@ -117,3 +117,5 @@ export const Bullet = styled(Box)(({ theme }) => ({
     marginTop: 6,
     background: theme.palette.secondary.main,
 }));
+
+

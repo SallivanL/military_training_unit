@@ -12,15 +12,23 @@ import {
     ListRow,
     NumberCircle,
     Bullet,
-    Badge, TableScroll
+    TableScroll, SectionHeader, SectionTitle, GridThree, IconWrapper, RequirementCard
 } from "./KadrSectionStyled";
 
+import TopicIcon from '@mui/icons-material/Topic';
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import MilitaryTechIcon from "@mui/icons-material/MilitaryTech";
 import AssignmentIcon from "@mui/icons-material/Assignment";
-import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
+import {requirementsKADR, stagesKADR} from "@/description.ts";
+import ChecklistIcon from "@mui/icons-material/Checklist";
+import {ListItemRow, ListNumber} from "@/sections/ZapasSection/ZapasSectionStyled.tsx";
 
 const specialties = [
+    {
+        military: "Инженер по эксплуатации и ремонту воздушных судов",
+        civilian: "11.05.03 Инфокоммуникационные технологии и системы специальной связи",
+        faculty: "ИЭТИ",
+    },
     {
         military: "Инженер по эксплуатации и ремонту воздушных судов",
         civilian: "24.05.06 Системы управления летательными аппаратами",
@@ -33,10 +41,14 @@ const specialties = [
     },
 ];
 
-const steps = [
-    "Обратиться в военный комиссариат района для формирования личного дела",
-    "До 10 июля представить личное дело в ВУЦ",
-    "Подать заявление в приёмную комиссию",
+
+
+const stepsKADR = [
+    "Подать заявление в военный коммисориат по месту пребывания до 15 июня",
+    "Пройти медицинское освидетельствование",
+    "Пройти профессионально психологического отбора",
+    "Предоставить личное дело в ВУЦ",
+    "Сдать нормативы по физической подготовке",
 ];
 
 const docs = [
@@ -53,6 +65,27 @@ const KadrSection = () => {
         <SectionWrapper>
             <Container>
 
+                <SectionHeader
+                    variant="h2"
+                >
+                    <SectionTitle>Требования к кандидатам</SectionTitle>
+                </SectionHeader>
+
+                <GridThree>
+                    {requirementsKADR.map((item, i) => {
+                        const Icon = item.icon;
+                        return (
+                            <RequirementCard key={i}>
+                                <IconWrapper>
+                                    <Icon />
+                                </IconWrapper>
+                                <CardTitle>{item.title}</CardTitle>
+                                <CardText>{item.desc}</CardText>
+                            </RequirementCard>
+                        );
+                    })}
+                </GridThree>
+
                 {/* TABLE */}
 
                 <TableCard>
@@ -62,7 +95,7 @@ const KadrSection = () => {
                             <tr>
                                 <HeadCell>Военная специальность</HeadCell>
                                 <HeadCell>Гражданская специальность</HeadCell>
-                                <HeadCell align="center">Факультет</HeadCell>
+                                <HeadCell align="center">Институт</HeadCell>
                             </tr>
                             </thead>
 
@@ -86,15 +119,15 @@ const KadrSection = () => {
                     <Card>
                         <AccessTimeIcon/>
                         <CardTitle>Срок обучения</CardTitle>
-                        <CardText>5,5 лет очная форма</CardText>
+                        <CardText>5(5,5) лет очная форма</CardText>
                     </Card>
 
                     <Card>
                         <MilitaryTechIcon/>
                         <CardTitle>Контракт</CardTitle>
                         <CardText>
-                            Служба в ВКС РФ на должностях инженерного состава
-                            сроком 3 года
+                            Служба в Воздушно космических силах РФ на должностях инженерно-технического состава.
+                            Срок службы - 3 года, с возможностью продления контракта
                         </CardText>
                     </Card>
 
@@ -106,7 +139,7 @@ const KadrSection = () => {
                     <AssignmentIcon/>
                     <CardTitle>Порядок поступления</CardTitle>
 
-                    {steps.map((s, i) => (
+                    {stepsKADR.map((s, i) => (
                         <ListRow key={i}>
                             <NumberCircle>{i + 1}</NumberCircle>
                             <CardText>{s}</CardText>
@@ -119,7 +152,10 @@ const KadrSection = () => {
                 <GridTwo>
 
                     <Card>
-                        <CardTitle>Документы на комиссию</CardTitle>
+                        <SectionTitle variant="h6">
+                            <TopicIcon sx={{ mr: 1 }} />
+                            Документы в приёмную комиссию
+                        </SectionTitle>
 
                         {docs.map((d, i) => (
                             <ListRow key={i}>
@@ -130,17 +166,17 @@ const KadrSection = () => {
                     </Card>
 
                     <Card>
-                        <EmojiEventsIcon/>
-                        <CardTitle>Конкурсный отбор</CardTitle>
+                        <SectionTitle variant="h6">
+                            <ChecklistIcon sx={{ mr: 1 }} />
+                            Этапы отбора
+                        </SectionTitle>
 
-                        <CardText>
-                            Дополнительное испытание по физической подготовке
-                        </CardText>
-
-                        <Badge>Сила</Badge>
-                        <Badge>Быстрота</Badge>
-                        <Badge>Выносливость</Badge>
-
+                        {stagesKADR.map((stage, i) => (
+                            <ListItemRow key={i}>
+                                <ListNumber>{i + 1}</ListNumber>
+                                <CardText>{stage}</CardText>
+                            </ListItemRow>
+                        ))}
                     </Card>
 
                 </GridTwo>
